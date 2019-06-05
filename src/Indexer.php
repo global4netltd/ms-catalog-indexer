@@ -43,17 +43,17 @@ class Indexer
     }
 
     /**
-     * 
+     *
      */
     protected function initializePusher()
     {
-        if ($engine = $this->config->getEngine()) {
-            switch($engine) {
-                case self::ENGINE_SOLR:
-                    $config = $this->createSolrConfig();
-                    return new SolrPusher($config);
-            }
-        }
+        //   if ($engine = $this->config->getEngine()) {
+        //     switch($engine) {
+        //       case self::ENGINE_SOLR:
+        $config = $this->createSolrConfig();
+        return new SolrPusher($config);
+        // }
+        //}
     }
 
     /**
@@ -65,8 +65,9 @@ class Indexer
         $port = $this->config->getPort();
         $path = $this->config->getPath();
         $core = $this->config->getCore();
+        $pageSize = $this->config->getPageSize();
 
-        return new SolrConfig($host, $port, $path, $core);
+        return new SolrConfig($host, $port, $path, $core, $pageSize);
     }
 
     public function reindex()
