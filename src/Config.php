@@ -38,6 +38,11 @@ class Config implements ConfigInterface
     /**
      * @var string
      */
+    protected $collection;
+
+    /**
+     * @var string
+     */
     protected $core;
 
     /**
@@ -56,6 +61,7 @@ class Config implements ConfigInterface
      * @param string $host
      * @param int $port
      * @param string $path
+     * @param string $collection
      * @param string $core
      * @param int $pageSize
      * @param boolean $clearIndexBeforeReindex
@@ -65,6 +71,7 @@ class Config implements ConfigInterface
         $host,
         $port,
         $path,
+        $collection,
         $core,
         $pageSize,
         $clearIndexBeforeReindex
@@ -72,14 +79,15 @@ class Config implements ConfigInterface
         $this->engine = $engine;
         $this->host = $host;
         $this->port = $port;
-        $this->path = $path;
+        $this->path = '/'; // since Solarium 5.0
+        $this->collection = $collection;
         $this->core = $core;
         $this->pageSize = $pageSize;
         $this->clearIndexBeforeReindex = $clearIndexBeforeReindex;
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getEngine(): int
     {
@@ -88,9 +96,9 @@ class Config implements ConfigInterface
 
     /**
      * @param int $engine
-     * @return Config
+     * @return ConfigInterface
      */
-    public function setEngine(int $engine): Config
+    public function setEngine(int $engine): ConfigInterface
     {
         $this->engine = $engine;
 
@@ -107,9 +115,9 @@ class Config implements ConfigInterface
 
     /**
      * @param string $host
-     * @return Config
+     * @return ConfigInterface
      */
-    public function setHost(string $host): Config
+    public function setHost(string $host): ConfigInterface
     {
         $this->host = $host;
 
@@ -126,9 +134,9 @@ class Config implements ConfigInterface
 
     /**
      * @param int $port
-     * @return Config
+     * @return ConfigInterface
      */
-    public function setPort(int $port): Config
+    public function setPort(int $port): ConfigInterface
     {
         $this->port = $port;
 
@@ -145,11 +153,30 @@ class Config implements ConfigInterface
 
     /**
      * @param string $path
-     * @return Config
+     * @return ConfigInterface
      */
-    public function setPath(string $path): Config
+    public function setPath(string $path): ConfigInterface
     {
-        $this->path = $path;
+        $this->path = '/'; // since Solarium 5.0
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCollection(): string
+    {
+        return $this->collection;
+    }
+
+    /**
+     * @param string $collection
+     * @return ConfigInterface
+     */
+    public function setCollection(string $collection): ConfigInterface
+    {
+        $this->collection = $collection;
 
         return $this;
     }
@@ -164,9 +191,9 @@ class Config implements ConfigInterface
 
     /**
      * @param string $core
-     * @return Config
+     * @return ConfigInterface
      */
-    public function setCore(string $core): Config
+    public function setCore(string $core): ConfigInterface
     {
         $this->core = $core;
 
@@ -183,9 +210,9 @@ class Config implements ConfigInterface
 
     /**
      * @param int $pageSize
-     * @return Config
+     * @return ConfigInterface
      */
-    public function setPageSize(int $pageSize): Config
+    public function setPageSize(int $pageSize): ConfigInterface
     {
         $this->pageSize = $pageSize;
 
@@ -202,9 +229,9 @@ class Config implements ConfigInterface
 
     /**
      * @param bool $clearIndexBeforeReindex
-     * @return Config
+     * @return ConfigInterface
      */
-    public function setClearIndexBeforeReindex(bool $clearIndexBeforeReindex): Config
+    public function setClearIndexBeforeReindex(bool $clearIndexBeforeReindex): ConfigInterface
     {
         $this->clearIndexBeforeReindex = $clearIndexBeforeReindex;
 
@@ -217,10 +244,11 @@ class Config implements ConfigInterface
     public function getConnectionConfigArray(): array
     {
         return [
-            'host' => $this->getHost(),
-            'port' => $this->getPort(),
-            'path' => $this->getPath(),
-            'core' => $this->getCore(),
+            'host'       => $this->getHost(),
+            'port'       => $this->getPort(),
+            'path'       => $this->getPath(),
+            'collection' => $this->getCollection(),
+            'core'       => $this->getCore(),
         ];
     }
 }
