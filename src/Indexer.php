@@ -2,20 +2,22 @@
 
 namespace G4NReact\MsCatalogIndexer;
 
-use G4NReact\MsCatalogSolr\Pusher as SolrPusher;
-use G4NReact\MsCatalogSolr\Config as SolrConfig;
+use G4NReact\MsCatalog\Config;
+use G4NReact\MsCatalog\PusherFactory;
+use G4NReact\MsCatalog\PusherInterface;
+use G4NReact\MsCatalog\PullerInterface;
+use Iterator;
 
+/**
+ * Class Indexer
+ * @package G4NReact\MsCatalogIndexer
+ */
 class Indexer
 {
     /**
-     * Engine types
+     * @var PullerInterface
      */
-    const ENGINE_SOLR = 1;
-
-    /**
-     * @var \Iterator
-     */
-    protected $documents;
+    protected $puller;
 
     /**
      * @var Config
@@ -23,56 +25,33 @@ class Indexer
     protected $config;
 
     /**
-     * @var void // pusher interface
+     * @var PusherInterface
      */
     protected $pusher;
 
     /**
-     * Indexer constructor.
-     * @param \Iterator $documents
+     * Indexer constructor
+     *
+     * @param Iterator|PullerInterface $puller
      * @param Config $config
      */
     public function __construct(
-        \Iterator $documents,
-        \G4NReact\MsCatalogIndexer\Config $config
+        PullerInterface $puller,
+        Config $config
     ) {
-        $this->documents = $documents;
+        $this->puller = $puller;
         $this->config = $config;
 
-        $this->pusher = $this->initializePusher();
+        $this->pusher = PusherFactory::create($config);
     }
 
     /**
-     * 
+     * @return void
      */
-    protected function initializePusher()
-    {
-        if ($engine = $this->config->getEngine()) {
-            switch($engine) {
-                case self::ENGINE_SOLR:
-                    $config = $this->createSolrConfig();
-                    return new SolrPusher($config);
-            }
-        }
-    }
-
-    /**
-     * @return SolrConfig
-     */
-    protected function createSolrConfig(): SolrConfig
-    {
-        $host = $this->config->getHost();
-        $port = $this->config->getPort();
-        $path = $this->config->getPath();
-        $core = $this->config->getCore();
-
-        return new SolrConfig($host, $port, $path, $core);
-    }
-
     public function reindex()
     {
-        if ($this->documents && $this->pusher) {
-            $this->pusher->push($this->documents);
+        if ($this->puller && $this->pusher) {
+            $this->pusher->push($this->puller);
         }
     }
 }
