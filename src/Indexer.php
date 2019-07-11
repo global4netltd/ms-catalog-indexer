@@ -2,6 +2,7 @@
 
 namespace G4NReact\MsCatalogIndexer;
 
+use Exception;
 use G4NReact\MsCatalog\Client\ClientFactory;
 use G4NReact\MsCatalog\Config;
 use G4NReact\MsCatalog\PusherInterface;
@@ -34,6 +35,7 @@ class Indexer
      *
      * @param Iterator|PullerInterface $puller
      * @param Config $config
+     * @throws Exception
      */
     public function __construct(
         PullerInterface $puller,
