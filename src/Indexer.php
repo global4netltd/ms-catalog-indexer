@@ -2,8 +2,8 @@
 
 namespace G4NReact\MsCatalogIndexer;
 
+use G4NReact\MsCatalog\Client\ClientFactory;
 use G4NReact\MsCatalog\Config;
-use G4NReact\MsCatalog\PusherFactory;
 use G4NReact\MsCatalog\PusherInterface;
 use G4NReact\MsCatalog\PullerInterface;
 use Iterator;
@@ -42,7 +42,7 @@ class Indexer
         $this->puller = $puller;
         $this->config = $config;
 
-        $this->pusher = PusherFactory::create($config);
+        $this->pusher = ClientFactory::create($config)->getPusher();
     }
 
     /**
