@@ -11,6 +11,7 @@ use Iterator;
 
 /**
  * Class Indexer
+ * @deprecated since 2019-08-07 (Whole module is deprecated)
  * @package G4NReact\MsCatalogIndexer
  */
 class Indexer

@@ -1,18 +1,24 @@
 {
-  "name": "g4n-react/ms-catalog-indexer",
-  "description": "Something, something, something darkside...",
-  "version": "0.1.0",
-  "license": "MIT",
-  "keywords": ["solr", "elasticsearch", "Magento", "Magento2"],
-  "authors": [
-    {
-      "name": "G4N React Storefront",
-      "email": "biuro@global4net.com"
+    "name": "g4n-react/ms-catalog-indexer",
+    "description": "Something, something, something darkside...",
+    "version": "0.1.0",
+    "license": "MIT",
+    "keywords": [
+        "solr",
+        "elasticsearch",
+        "Magento",
+        "Magento2"
+    ],
+    "abandoned": true,
+    "authors": [
+        {
+            "name": "G4N React Storefront",
+            "email": "biuro@global4net.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "G4NReact\\MsCatalogIndexer\\": "src/"
+        }
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "G4NReact\\MsCatalogIndexer\\": "src/"
-    }
-  }
 }
